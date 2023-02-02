@@ -1,6 +1,18 @@
 <template>
     <div class="card">
-        <div class="card-header bg-dark text-white">{{ titulo }}</div>
+        <div class="card-header bg-dark text-white">
+            <div class="row">
+                <div class="col d-flex justify-content-between">
+                    <div>
+                        {{ titulo }}
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" v-model="favoritada">
+                        <label class="fprm-check-label">Favoritar</label>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <p>{{ descricao }}</p>
         </div>
@@ -14,6 +26,18 @@
 <script>
 export default {
     name: 'VagaPadrao',
+    data: () => ({
+        favoritada: false
+    }),
+    watch: {
+        favoritada(valorNovo) {
+            if(valorNovo) {
+                this.emitter.emit('favoritarVaga', this.titulo)
+            } else {
+                this.emitter.emit('desFavoritarVaga', this.titulo)
+            }
+        }
+    },
     //props: ['titulo', 'descricao', 'salario', 'modalidade', 'tipo', 'publicacao']
     props: {
         titulo: {
@@ -66,6 +90,9 @@ export default {
             //return dataPublicacao.toLocaleString('pt-BR')
             return dataPublicacao.toLocaleDateString('pt-BR')
         }
+    },
+    methods: {
+        
     }
 }
 </script>
