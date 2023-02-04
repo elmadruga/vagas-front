@@ -2,14 +2,11 @@
   <div>
     <vagas-favoritas />
     <TopoPadrao @navegar="componente = $event" />
-    <alerta-padrao v-if="exibirAlerta">
-        <template v-slot:titulo>
-          <h5>Título do alerta</h5>
-        </template>
-
-        <template v-slot:descricao>
-          <p>Descrição do alerta</p>
-        </template>
+    <alerta-padrao v-if="exibirAlerta" :tipo="alerta.tipo">
+      <template v-slot:titulo>
+        <h5>{{ alerta.titulo }}</h5>
+      </template>
+      <p>{{ alerta.descricao }}</p>
     </alerta-padrao>
     <ConteudoPadrao v-if="visibilidade" :conteudo="componente "></ConteudoPadrao>
   </div>
@@ -26,7 +23,8 @@ export default {
   data: () => ({
     visibilidade: true,
     componente: 'HomePadrao',
-    exibirAlerta: false
+    exibirAlerta: false,
+    alerta: {titulo: '', descricao: '', tipo: ''}
   }),
 
   components: {
@@ -36,10 +34,10 @@ export default {
     AlertaPadrao
   },
   mounted() {
-    this.emitter.on('alerta', () => {
+    this.emitter.on('alerta', (a) => {
+      this.alerta = a
       this.exibirAlerta = true
       setTimeout(() => this.exibirAlerta = false, 4000)
-      console.log('Apresentar a mensagem de alerta customizada')
     })
   }
 }

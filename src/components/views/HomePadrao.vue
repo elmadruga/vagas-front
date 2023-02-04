@@ -5,13 +5,27 @@
                 <pesquisar-vaga></pesquisar-vaga>
             </div>
         </div>
+        
+        <lista-vagas>
+            
+           <!--
+            <template v-slot:titulo="slotProps">
+                {{ slotProps.dadosTitulo.titulo }}
+                <hr>
+            </template>
 
-        <div class="row mt-5" v-for="(vaga, index) in vagas" :key="index">
-            <div class="col">
-                <vaga-padrao v-bind="vaga" />
-            </div>
-        </div>
+            <template v-slot:default="slotProps">
+                {{ slotProps.vagas }}
+                <hr>
+            </template>
 
+            <template v-slot:rodape="slotProps">
+                {{ slotProps.dadosRodape.titulo }}
+            </template>
+            --> 
+        
+        </lista-vagas>
+        
         <div class="row mt-5">
             <div class="col-4">
                 <indicador-vagas titulo="Vagas abertas" indicador="100" bg="bg-dark"
@@ -33,8 +47,9 @@
 
 <script>
 import IndicadorVagas from '@/components/common/IndicadorVagas.vue'
+import ListaVagas from '@/components/common/ListaVagas.vue'
 import PesquisarVaga from '@/components/common/PesquisarVaga.vue'
-import VagaPadrao from '@/components/common/VagaPadrao.vue'
+
 
 export default {
     name: 'HomePadrao',
@@ -51,11 +66,10 @@ export default {
     components: {
         PesquisarVaga,
         IndicadorVagas,
-        VagaPadrao
+        ListaVagas
     },
     data: () => ({
         usuariosOnline: 0,
-        vagas: []
     }),
     methods: {
         getUsuariosOnline() {
@@ -64,10 +78,8 @@ export default {
     },
     created() {
         setInterval(this.getUsuariosOnline, 1000) //a cada 1 segundo
-    },
-    activated() {
-        this.vagas = JSON.parse(localStorage.getItem('vagas'))
     }
+    
 }
 </script>
 
